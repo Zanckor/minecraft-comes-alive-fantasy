@@ -21,7 +21,7 @@ public class SkinLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
     @Override
     public Identifier getSkin(T villager) {
         Genetics genetics = getVillager(villager).getGenetics();
-        Race race = villager instanceof IRaceEntityMCAF raceEntityMCAF ? raceEntityMCAF.getRaceType() : Race.HUMAN;
+        Race race = ((IRaceEntityMCAF) villager).getRaceType();
 
         int skin = (int) Math.min(4, Math.max(0, genetics.getGene(Genetics.SKIN) * 5));
         return this.cached("skins/skin/" + race.name().toLowerCase() + "/" + genetics.getGender().getDataName() + "/" + skin + ".png", MCA::locate);
