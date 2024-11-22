@@ -1,5 +1,15 @@
 {
-  "itemGroup.mca.mca_tab": "Minecraft Comes Alive",
+  "itemGroup.mca.mca_tab": "Minecraft Comes Alive Fantasy",
+
+  "entity.mca.race.human": "Human",
+  "entity.mca.race.goblin": "Goblin",
+  "entity.mca.race.elf": "Elf",
+  "entity.mca.race.dwarf": "Dwarf",
+  "entity.mca.race.netherborn": "Netherborn",
+  "entity.mca.race.fairy": "Fairy",
+  "entity.mca.race.dragonborn": "Dragonborn",
+
+  "gui.mca.string.race": "Race",
 
   "entity.minecraft.villager.mca.none": "Jobless",
 

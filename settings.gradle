@@ -21,4 +21,4 @@ include('fabric')
 include('quilt')
 include('forge')
 
-rootProject.name = 'minecraft-comes-alive'
+rootProject.name = 'minecraft-comes-alive-fantasy'
