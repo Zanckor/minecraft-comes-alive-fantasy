@@ -33,8 +33,8 @@ public class SkinLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
         float albinism = getVillager(villager).getTraits().hasTrait(Traits.ALBINISM) ? 0.1f : 1.0f;
 
         return ColorPalette.SKIN.getColor(
-                getVillager(villager).getGenetics().getGene(Genetics.MELANIN) * albinism,
-                getVillager(villager).getGenetics().getGene(Genetics.HEMOGLOBIN) * albinism,
+                getVillager(villager).getGenetics().getGene(Genetics.MELANIN) / 2 * albinism,
+                getVillager(villager).getGenetics().getGene(Genetics.HEMOGLOBIN) / 2 * albinism,
                 getVillager(villager).getInfectionProgress()
         );
     }
