@@ -9,6 +9,7 @@ import net.mca.entity.race.Race;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 import static net.mca.client.model.CommonVillagerModel.getVillager;
@@ -21,7 +22,7 @@ public class SkinLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
     @Override
     public Identifier getSkin(T villager) {
         Genetics genetics = getVillager(villager).getGenetics();
-        Race race = ((IRaceEntityMCAF) villager).getRaceType();
+        Race race = villager instanceof PlayerEntity ? Race.HUMAN : ((IRaceEntityMCAF) villager).getRaceType();
 
         int skin = (int) Math.min(4, Math.max(0, genetics.getGene(Genetics.SKIN) * 5));
         return this.cached("skins/skin/" + race.name().toLowerCase() + "/" + genetics.getGender().getDataName() + "/" + skin + ".png", MCA::locate);
