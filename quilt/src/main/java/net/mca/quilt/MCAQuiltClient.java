@@ -43,8 +43,8 @@ public final class MCAQuiltClient extends ClientProxyAbstractImpl implements Cli
             EntityRendererRegistry.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityRenderer::new);
             EntityRendererRegistry.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityRenderer::new);
         } else {
-            EntityRendererRegistry.register(EntitiesMCA.MALE_VILLAGER, VillagerEntityMCARenderer::new);
-            EntityRendererRegistry.register(EntitiesMCA.FEMALE_VILLAGER, VillagerEntityMCARenderer::new);
+            EntityRendererRegistry.register(EntitiesMCA.MALE_VILLAGER, context -> new VillagerEntityMCARenderer(context,true, "normal"));
+            EntityRendererRegistry.register(EntitiesMCA.FEMALE_VILLAGER, context -> new VillagerEntityMCARenderer(context,true, "normal"));
 
             EntityRendererRegistry.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
             EntityRendererRegistry.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);

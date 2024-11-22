@@ -4,6 +4,8 @@ import net.mca.MCA;
 import net.mca.client.resources.ColorPalette;
 import net.mca.entity.ai.Genetics;
 import net.mca.entity.ai.Traits;
+import net.mca.entity.race.IRaceEntityMCAF;
+import net.mca.entity.race.Race;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -19,8 +21,10 @@ public class SkinLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
     @Override
     public Identifier getSkin(T villager) {
         Genetics genetics = getVillager(villager).getGenetics();
+        Race race = villager instanceof IRaceEntityMCAF raceEntityMCAF ? raceEntityMCAF.getRaceType() : Race.HUMAN;
+
         int skin = (int) Math.min(4, Math.max(0, genetics.getGene(Genetics.SKIN) * 5));
-        return cached("skins/skin/" + genetics.getGender().getDataName() + "/" + skin + ".png", MCA::locate);
+        return this.cached("skins/skin/" + race.name().toLowerCase() + "/" + genetics.getGender().getDataName() + "/" + skin + ".png", MCA::locate);
     }
 
     @Override

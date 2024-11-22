@@ -12,13 +12,16 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 
 public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<VillagerEntityMCA> {
-    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
+    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx, boolean hasHair, String variant) {
         super(ctx, createModel(VillagerEntityModelMCA.bodyData(Dilation.NONE)).hideWears());
 
         addFeature(new SkinLayer<>(this, model));
-        addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), "normal"));
-        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), "normal"));
-        addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
+        addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), variant));
+        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), variant));
+
+        if (hasHair) {
+            addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
+        }
     }
 
     private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(ModelData data) {
