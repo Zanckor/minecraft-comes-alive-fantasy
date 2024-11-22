@@ -174,33 +174,33 @@ public class InteractScreen extends AbstractDynamicScreen {
         //name or state tip (gifting, ...)
         int h = 17;
         if (inGiftMode) {
-            context.drawTooltip(textRenderer, Text.translatable("gui.interact.label.giveGift"), 10, 28);
+            context.drawTooltip(textRenderer, Text.translatable("gui.interact.label.giveGift"), 10, 30);
         } else {
-            context.drawTooltip(textRenderer, villager.asEntity().getName(), 10, 28);
+            context.drawTooltip(textRenderer, villager.asEntity().getName(), 10, 30);
         }
 
+        //race
+        String race = ((IRaceEntityMCAF) villager).getRaceType().name().toLowerCase();
+        MutableText raceComponent = Text.translatable("gui.mca.string.race").append(": ").append(Text.translatable("entity.mca.race." + race));
+
+        context.drawTooltip(textRenderer, raceComponent, 10, 30 + h);
+
         //age or profession
-        context.drawTooltip(textRenderer, villager.asEntity().isBaby() ? villager.getAgeState().getName() : villager.getProfessionText(), 10, 30 + h);
+        context.drawTooltip(textRenderer, villager.asEntity().isBaby() ? villager.getAgeState().getName() : villager.getProfessionText(), 10, 30 + h * 2);
 
         VillagerBrain<?> brain = villager.getVillagerBrain();
 
         //mood
         context.drawTooltip(textRenderer,
                 Text.translatable("gui.interact.label.mood", brain.getMood().getText())
-                        .formatted(brain.getMood().getColor()), 10, 30 + h * 2);
-
-        //race
-        String race = ((IRaceEntityMCAF) villager).getRaceType().name().toLowerCase();
-        MutableText raceComponent = Text.translatable("gui.mca.string.race").append(": ").append(Text.translatable("entity.mca.race." + race));
-
-        context.drawTooltip(textRenderer, raceComponent, 10, 98);
+                        .formatted(brain.getMood().getColor()), 10, 30 + h * 3);
 
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
-            context.drawTooltip(textRenderer, brain.getPersonality().getDescription(), 10, 30 + h * 3);
+            context.drawTooltip(textRenderer, brain.getPersonality().getDescription(), 10, 30 + h * 4);
         } else {
             //White as we don't know if a personality is negative
-            context.drawTooltip(textRenderer, Text.translatable("gui.interact.label.personality", brain.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
+            context.drawTooltip(textRenderer, Text.translatable("gui.interact.label.personality", brain.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 4);
         }
 
 
@@ -208,11 +208,11 @@ public class InteractScreen extends AbstractDynamicScreen {
         //traits
         Set<Traits.Trait> traits = villager.getTraits().getTraits();
         if (traits.size() > 0) {
-            if (hoveringOverText(10, 30 + h * 4, 128)) {
+            if (hoveringOverText(10, 30 + h * 5, 128)) {
                 //details
                 List<Text> traitText = traits.stream().map(Traits.Trait::getDescription).collect(Collectors.toList());
                 traitText.add(0, Text.translatable("traits.title"));
-                context.drawTooltip(textRenderer, traitText, 10, 30 + h * 4);
+                context.drawTooltip(textRenderer, traitText, 10, 30 + h * 5);
             } else {
                 //list
                 MutableText traitText = Text.translatable("traits.title");
@@ -222,7 +222,7 @@ public class InteractScreen extends AbstractDynamicScreen {
                     }
                     traitText.append(t);
                 });
-                context.drawTooltip(textRenderer, traitText, 10, 30 + h * 4);
+                context.drawTooltip(textRenderer, traitText, 10, 30 + h * 5);
             }
         }
 
