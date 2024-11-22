@@ -10,6 +10,7 @@ import net.mca.entity.ai.Traits;
 import net.mca.entity.ai.brain.VillagerBrain;
 import net.mca.entity.ai.relationship.CompassionateEntity;
 import net.mca.entity.ai.relationship.RelationshipState;
+import net.mca.entity.race.IRaceEntityMCAF;
 import net.mca.network.c2s.*;
 import net.mca.resources.data.analysis.Analysis;
 import net.mca.resources.data.dialogue.Question;
@@ -24,7 +25,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class InteractScreen extends AbstractDynamicScreen {
@@ -186,6 +189,12 @@ public class InteractScreen extends AbstractDynamicScreen {
                 Text.translatable("gui.interact.label.mood", brain.getMood().getText())
                         .formatted(brain.getMood().getColor()), 10, 30 + h * 2);
 
+        //race
+        String race = ((IRaceEntityMCAF) villager).getRaceType().name().toLowerCase();
+        MutableText raceComponent = Text.translatable("gui.mca.string.race").append(": ").append(Text.translatable("entity.mca.race." + race));
+
+        context.drawTooltip(textRenderer, raceComponent, 10, 98);
+
         //personality
         if (hoveringOverText(10, 30 + h * 3, 128)) {
             context.drawTooltip(textRenderer, brain.getPersonality().getDescription(), 10, 30 + h * 3);
@@ -193,6 +202,8 @@ public class InteractScreen extends AbstractDynamicScreen {
             //White as we don't know if a personality is negative
             context.drawTooltip(textRenderer, Text.translatable("gui.interact.label.personality", brain.getPersonality().getName()).formatted(Formatting.WHITE), 10, 30 + h * 3);
         }
+
+
 
         //traits
         Set<Traits.Trait> traits = villager.getTraits().getTraits();
@@ -239,6 +250,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         if (canDrawGiftIcon() && hoveringOverIcon("gift")) {
             drawHoveringIconText(context, Text.translatable("gui.interact.label.gift"), "gift");
         }
+
 
         //genes
         if (hoveringOverIcon("genes")) {
