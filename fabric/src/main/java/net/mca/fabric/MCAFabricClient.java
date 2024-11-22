@@ -24,6 +24,7 @@ import net.mca.client.render.TombstoneBlockEntityRenderer;
 import net.mca.client.render.VillagerEntityMCARenderer;
 import net.mca.client.render.ZombieVillagerEntityMCARenderer;
 import net.mca.entity.EntitiesMCA;
+import net.mca.entity.RacedVillagerEntityMCAF;
 import net.mca.fabric.client.gui.FabricMCAScreens;
 import net.mca.fabric.resources.ApiIdentifiableReloadListener;
 import net.mca.fabric.resources.FabricColorPaletteLoader;
@@ -53,12 +54,35 @@ public final class MCAFabricClient extends ClientProxyAbstractImpl implements Cl
             EntityRendererRegistry.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
         }
 
+        /* MCA Fantasy */
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_GOBLIN,context -> new VillagerEntityMCARenderer(context,false, "goblin"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_GOBLIN,context -> new VillagerEntityMCARenderer(context,false, "goblin"));
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_ELF, context -> new VillagerEntityMCARenderer(context, true, "elf"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_ELF, context -> new VillagerEntityMCARenderer(context, true, "elf"));
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_DWARF, context -> new VillagerEntityMCARenderer(context, true, "dwarf"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DWARF, context -> new VillagerEntityMCARenderer(context, true, "dwarf"));
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_NETHERBORN, context -> new VillagerEntityMCARenderer(context, true, "netherborn"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_NETHERBORN, context -> new VillagerEntityMCARenderer(context, true, "netherborn"));
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_FAIRY, context -> new VillagerEntityMCARenderer(context, true, "fairy"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_FAIRY, context -> new VillagerEntityMCARenderer(context, true, "fairy"));
+
+        EntityRendererRegistry.register(EntitiesMCA.MALE_DRAGONBORN, context -> new VillagerEntityMCARenderer(context, true, "dragonborn"));
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DRAGONBORN, context -> new VillagerEntityMCARenderer(context, true, "dragonborn"));
+
+        /* MCA */
+
         EntityRendererRegistry.register(EntitiesMCA.GRIM_REAPER, GrimReaperRenderer::new);
         EntityRendererRegistry.register(EntitiesMCA.CRIB, CribEntityRenderer::new);
 
         ParticleProviderRegistry.register(ParticleTypesMCA.NEG_INTERACTION.get(), InteractionParticle.Factory::new);
         ParticleProviderRegistry.register(ParticleTypesMCA.POS_INTERACTION.get(), InteractionParticle.Factory::new);
 
+        //noinspection deprecation
         BlockEntityRendererRegistry.register(BlockEntityTypesMCA.TOMBSTONE.get(), TombstoneBlockEntityRenderer::new);
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new FabricMCAScreens());
