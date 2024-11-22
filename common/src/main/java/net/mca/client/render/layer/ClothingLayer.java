@@ -20,9 +20,11 @@ public class ClothingLayer<T extends LivingEntity, M extends BipedEntityModel<T>
     public Identifier getSkin(T villager) {
         String v = getVillager(villager).isBurned() ? "burnt" : variant;
         String identifier = getVillager(villager).getClothes();
+
         if (identifier.startsWith("immersive_library:")) {
             return SkinCache.getTextureIdentifier(Integer.parseInt(identifier.substring(18)));
         }
+
         return cached(identifier + v, clothes -> {
             Identifier id = new Identifier(getVillager(villager).getClothes());
 
