@@ -1,5 +1,7 @@
 package net.mca.entity.race;
 
+import java.util.Random;
+
 public enum Race {
     HUMAN,
     GOBLIN,
@@ -21,5 +23,9 @@ public enum Race {
 
     public static Race getRaceType(String raceType) {
         return getRaceType(raceType, HUMAN);
+    }
+
+    public static Race getRandom() {
+        return Race.values()[new Random().nextInt(Race.values().length)];
     }
 }

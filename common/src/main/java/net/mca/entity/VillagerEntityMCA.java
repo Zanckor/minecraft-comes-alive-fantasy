@@ -11,6 +11,7 @@ import net.mca.entity.ai.brain.VillagerTasksMCA;
 import net.mca.entity.ai.pathfinder.VillagerNavigation;
 import net.mca.entity.ai.relationship.*;
 import net.mca.entity.interaction.VillagerCommandHandler;
+import net.mca.entity.race.Race;
 import net.mca.item.ItemsMCA;
 import net.mca.network.c2s.InteractionVillagerMessage;
 import net.mca.resources.Names;
@@ -112,13 +113,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public final ConversationManager conversationManager = new ConversationManager(this);
     private final VillagerBrain<VillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
     private final LongTermMemory longTermMemory = new LongTermMemory(this);
-    private final Genetics genetics = new Genetics(this);
     private final Traits traits = new Traits(this);
     private final Residency residency = new Residency(this);
     private final BreedableRelationship relations = new BreedableRelationship(this);
     private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
     private final UpdatableInventory inventory = new UpdatableInventory(27);
     private final VillagerDimensions.Mutable dimensions = new VillagerDimensions.Mutable(AgeState.UNASSIGNED);
+    private final Genetics genetics;
 
     private GameProfile gameProfile;
     private PlayerModel playerModel;
@@ -137,10 +138,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
                 .add(BreedableRelationship::createTrackedData);
     }
 
-    public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender) {
+    public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender, Race race) {
         super(type, w);
         inventory.addListener(this::onInvChange);
-        genetics.setGender(gender);
+        genetics = new Genetics(this);
+
+        getGenetics().setRace(race);
+        getGenetics().setGender(gender);
     }
 
     @Override

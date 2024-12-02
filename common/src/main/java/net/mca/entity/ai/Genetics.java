@@ -3,6 +3,7 @@ package net.mca.entity.ai;
 import net.mca.Config;
 import net.mca.entity.VillagerLike;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.entity.race.Race;
 import net.mca.util.network.datasync.CDataManager;
 import net.mca.util.network.datasync.CDataParameter;
 import net.mca.util.network.datasync.CEnumParameter;
@@ -32,10 +33,11 @@ public class Genetics implements Iterable<Genetics.Gene> {
     public static final GeneType VOICE_TONE = new GeneType("gene_voice_tone");
 
     private static final CEnumParameter<Gender> GENDER = CParameter.create("gender", Gender.UNASSIGNED);
+    private static final CEnumParameter<Race> RACE = CParameter.create("race", Race.HUMAN);
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
         GENOMES.forEach(g -> builder.addAll(g.getParam()));
-        return builder.addAll(GENDER);
+        return builder.addAll(GENDER).addAll(RACE);
     }
 
     private Random random = Random.create();
@@ -62,6 +64,14 @@ public class Genetics implements Iterable<Genetics.Gene> {
 
     public Gender getGender() {
         return entity.getTrackedValue(GENDER);
+    }
+
+    public void setRace(Race race) {
+        entity.setTrackedValue(RACE, race);
+    }
+
+    public Race getRace() {
+        return entity.getTrackedValue(RACE);
     }
 
     public float getBreastSize() {

@@ -24,7 +24,6 @@ import net.mca.client.render.TombstoneBlockEntityRenderer;
 import net.mca.client.render.VillagerEntityMCARenderer;
 import net.mca.client.render.ZombieVillagerEntityMCARenderer;
 import net.mca.entity.EntitiesMCA;
-import net.mca.entity.RacedVillagerEntityMCAF;
 import net.mca.fabric.client.gui.FabricMCAScreens;
 import net.mca.fabric.resources.ApiIdentifiableReloadListener;
 import net.mca.fabric.resources.FabricColorPaletteLoader;

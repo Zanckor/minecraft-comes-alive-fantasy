@@ -10,6 +10,7 @@ import net.mca.entity.VillagerLike;
 import net.mca.entity.ai.Memories;
 import net.mca.entity.ai.relationship.AgeState;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.entity.race.Race;
 import net.mca.server.world.data.FamilyTree;
 import net.mca.network.s2c.OpenGuiRequest;
 import net.mca.util.WorldUtils;
@@ -35,6 +36,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static net.mca.entity.EntitiesMCA.MALE_GOBLIN;
 import static net.minecraft.util.Util.NIL_UUID;
 
 public class BabyItem extends Item {
@@ -60,10 +62,15 @@ public class BabyItem extends Item {
         VillagerLike<?> motherVillager = VillagerLike.toVillager(mother);
         VillagerLike<?> fatherVillager = VillagerLike.toVillager(father);
 
+        Race motherRace = motherVillager.getGenetics().getRace();
+        Race fatherRace = fatherVillager.getGenetics().getRace();
+        Race race = motherRace == fatherRace ? motherRace : Math.random() < 0.5 ? motherRace : fatherRace;
+
         // Create dummy child to generate genes and traits
         VillagerEntityMCA child = VillagerFactory.newVillager(mother.getWorld())
                 .withPosition(mother.getPos())
                 .withGender(gender)
+                .withRace(race)
                 .withAge(-AgeState.getMaxAge())
                 .build();
 
@@ -200,9 +207,21 @@ public class BabyItem extends Item {
     }
 
     protected VillagerEntityMCA birthChild(ItemStack stack, ServerWorld world, ServerPlayerEntity player) {
+        Entity mother = world.getEntity(getBabyNbt(stack).getUuid("mother"));
+        Entity father = world.getEntity(getBabyNbt(stack).getUuid("father"));
+
+        VillagerLike<?> motherVillager = VillagerLike.toVillager(mother);
+        VillagerLike<?> fatherVillager = VillagerLike.toVillager(father);
+
+        Race motherRace = motherVillager != null ? motherVillager.getGenetics().getRace() : Race.HUMAN;
+        Race fatherRace = fatherVillager != null ? fatherVillager.getGenetics().getRace() : Race.HUMAN;
+        Race race = motherRace == fatherRace ? motherRace : Math.random() < 0.5 ? motherRace : fatherRace;
+        race = Race.ELF;
+
         VillagerEntityMCA child = VillagerFactory.newVillager(world)
                 .withPosition(player.getPos())
                 .withGender(gender)
+                .withRace(race)
                 .withAge(-AgeState.getMaxAge())
                 .build();
 
@@ -213,7 +232,6 @@ public class BabyItem extends Item {
         child.setName(getBabyNbt(stack).getString("babyName"));
 
         WorldUtils.spawnEntity(world, child, SpawnReason.BREEDING);
-
         FamilyTree tree = FamilyTree.get(world);
 
         // Assign parents
@@ -241,6 +259,7 @@ public class BabyItem extends Item {
                     memories.setHearts(Config.getInstance().childInitialHearts);
                 });
 
+        System.out.println(child.getGenetics().getRace().name());
         return child;
     }
 

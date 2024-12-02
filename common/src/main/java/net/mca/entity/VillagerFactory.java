@@ -3,6 +3,7 @@ package net.mca.entity;
 import net.mca.MCA;
 import net.mca.entity.ai.relationship.AgeState;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.entity.race.Race;
 import net.mca.resources.Names;
 import net.mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
@@ -23,6 +24,7 @@ public class VillagerFactory {
 
     private Optional<String> name = Optional.empty();
     private Optional<Gender> gender = Optional.empty();
+    private Optional<Race> race = Optional.empty();
 
     private Optional<VillagerProfession> profession = Optional.empty();
     private Optional<VillagerType> type = Optional.empty();
@@ -44,6 +46,12 @@ public class VillagerFactory {
         this.gender = Optional.ofNullable(gender);
         return this;
     }
+
+    public VillagerFactory withRace(Race race) {
+        this.race = Optional.ofNullable(race);
+        return this;
+    }
+
 
     public VillagerFactory withType(VillagerType type) {
         this.type = Optional.ofNullable(type);
@@ -106,22 +114,34 @@ public class VillagerFactory {
         return villager;
     }
 
-    public VillagerEntityMCA build() {
-        Gender gender = this.gender.orElseGet(Gender::getRandom);
+    private VillagerEntityMCA initializeVillager(Gender gender, Race race) {
         VillagerEntityMCA villager = gender.getVillagerType().create(world);
-        assert villager != null;
+        if(villager == null) {
+            MCA.LOGGER.error("Failed to create villager entity!");
+            return null;
+        }
+
         villager.getGenetics().setGender(gender);
+        villager.getGenetics().setRace(race);
         villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(AgeState.getMaxAge() * 3) - AgeState.getMaxAge()));
         position.ifPresent(pos -> villager.updatePosition(pos.getX(), pos.getY(), pos.getZ()));
         villager.setName(name.orElseGet(() -> Names.pickCitizenName(gender, villager)));
+
         VillagerData data = villager.getVillagerData();
         villager.setVillagerData(new VillagerData(
-                type.orElseGet(data::getType),
-                profession.orElse(VillagerProfession.NONE),
-                level.orElseGet(data::getLevel)
-            )
+                        type.orElseGet(data::getType),
+                        profession.orElse(VillagerProfession.NONE),
+                        level.orElseGet(data::getLevel)
+                )
         );
         offers.ifPresent(villager::setOffers);
         return villager;
+    }
+
+    public VillagerEntityMCA build() {
+        Gender gender = this.gender.orElseGet(Gender::getRandom);
+        Race race = this.race.orElseGet(Race::getRandom);
+
+        return initializeVillager(gender, race);
     }
 }

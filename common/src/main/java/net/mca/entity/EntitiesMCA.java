@@ -56,7 +56,7 @@ public interface EntitiesMCA {
 
     static RegistrySupplier<EntityType<VillagerEntityMCA>> registerVillager(Gender gender, Race race) {
         return register(gender.name().toLowerCase() + "_" + race.name().toLowerCase() + "_villager", EntityType.Builder
-                .<VillagerEntityMCA>create((t, w) -> new RacedVillagerEntityMCAF(t, w, gender, race), SpawnGroup.AMBIENT)
+                .<VillagerEntityMCA>create((t, w) -> new VillagerEntityMCA(t, w, gender, race), SpawnGroup.AMBIENT)
                 .setDimensions(0.6F, 2.0F), VillagerEntityMCA::createVillagerAttributes
         );
     }

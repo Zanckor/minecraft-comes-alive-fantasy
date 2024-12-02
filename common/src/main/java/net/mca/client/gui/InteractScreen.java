@@ -10,7 +10,6 @@ import net.mca.entity.ai.Traits;
 import net.mca.entity.ai.brain.VillagerBrain;
 import net.mca.entity.ai.relationship.CompassionateEntity;
 import net.mca.entity.ai.relationship.RelationshipState;
-import net.mca.entity.race.IRaceEntityMCAF;
 import net.mca.network.c2s.*;
 import net.mca.resources.data.analysis.Analysis;
 import net.mca.resources.data.dialogue.Question;
@@ -180,7 +179,7 @@ public class InteractScreen extends AbstractDynamicScreen {
         }
 
         //race
-        String race = ((IRaceEntityMCAF) villager).getRaceType().name().toLowerCase();
+        String race = villager.getGenetics().getRace().name().toLowerCase();
         MutableText raceComponent = Text.translatable("gui.mca.string.race").append(": ").append(Text.translatable("entity.mca.race." + race));
 
         context.drawTooltip(textRenderer, raceComponent, 10, 30 + h);
