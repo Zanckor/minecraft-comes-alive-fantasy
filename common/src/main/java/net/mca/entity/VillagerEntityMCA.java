@@ -113,13 +113,13 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public final ConversationManager conversationManager = new ConversationManager(this);
     private final VillagerBrain<VillagerEntityMCA> mcaBrain = new VillagerBrain<>(this);
     private final LongTermMemory longTermMemory = new LongTermMemory(this);
+    private final Genetics genetics = new Genetics(this);
     private final Traits traits = new Traits(this);
     private final Residency residency = new Residency(this);
     private final BreedableRelationship relations = new BreedableRelationship(this);
     private final VillagerCommandHandler interactions = new VillagerCommandHandler(this);
     private final UpdatableInventory inventory = new UpdatableInventory(27);
     private final VillagerDimensions.Mutable dimensions = new VillagerDimensions.Mutable(AgeState.UNASSIGNED);
-    private final Genetics genetics;
 
     private GameProfile gameProfile;
     private PlayerModel playerModel;
@@ -141,10 +141,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public VillagerEntityMCA(EntityType<VillagerEntityMCA> type, World w, Gender gender, Race race) {
         super(type, w);
         inventory.addListener(this::onInvChange);
-        genetics = new Genetics(this);
 
-        getGenetics().setRace(race);
-        getGenetics().setGender(gender);
+        genetics.setGender(gender);
+        genetics.setRace(race);
     }
 
     @Override
@@ -1347,6 +1346,7 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
+
         getTypeDataManager().load(this, nbt);
         relations.readFromNbt(nbt);
         longTermMemory.readFromNbt(nbt);

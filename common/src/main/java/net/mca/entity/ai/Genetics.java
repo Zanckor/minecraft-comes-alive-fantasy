@@ -32,12 +32,13 @@ public class Genetics implements Iterable<Genetics.Gene> {
     public static final GeneType VOICE = new GeneType("gene_voice");
     public static final GeneType VOICE_TONE = new GeneType("gene_voice_tone");
 
-    private static final CEnumParameter<Gender> GENDER = CParameter.create("gender", Gender.UNASSIGNED);
-    private static final CEnumParameter<Race> RACE = CParameter.create("race", Race.HUMAN);
+    public static final CEnumParameter<Gender> GENDER = CParameter.create("gender", Gender.UNASSIGNED);
+    public static final CEnumParameter<Race> RACE = CParameter.create("race", Race.HUMAN);
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
         GENOMES.forEach(g -> builder.addAll(g.getParam()));
-        return builder.addAll(GENDER).addAll(RACE);
+
+        return builder.addAll(GENDER, RACE);
     }
 
     private Random random = Random.create();

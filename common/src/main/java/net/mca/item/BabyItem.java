@@ -36,7 +36,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static net.mca.entity.EntitiesMCA.MALE_GOBLIN;
 import static net.minecraft.util.Util.NIL_UUID;
 
 public class BabyItem extends Item {
@@ -100,6 +99,7 @@ public class BabyItem extends Item {
 
     public static NbtCompound getBabyNbt(ItemStack stack) {
         NbtCompound nbt = stack.getOrCreateNbt();
+
         if (!nbt.contains("baby")) {
             NbtCompound baby = stack.getOrCreateSubNbt("baby");
             baby.putUuid("mother", NIL_UUID);
@@ -216,7 +216,6 @@ public class BabyItem extends Item {
         Race motherRace = motherVillager != null ? motherVillager.getGenetics().getRace() : Race.HUMAN;
         Race fatherRace = fatherVillager != null ? fatherVillager.getGenetics().getRace() : Race.HUMAN;
         Race race = motherRace == fatherRace ? motherRace : Math.random() < 0.5 ? motherRace : fatherRace;
-        race = Race.ELF;
 
         VillagerEntityMCA child = VillagerFactory.newVillager(world)
                 .withPosition(player.getPos())
@@ -226,6 +225,9 @@ public class BabyItem extends Item {
                 .build();
 
         if (getBabyNbt(stack).contains("child")) {
+            NbtCompound childCompound = getBabyNbt(stack).getCompound("child");
+            childCompound.putInt("race", race.ordinal());
+
             child.readCustomDataFromNbt(getBabyNbt(stack).getCompound("child"));
         }
 
@@ -258,8 +260,6 @@ public class BabyItem extends Item {
                     Memories memories = child.getVillagerBrain().getMemoriesForPlayer(ply);
                     memories.setHearts(Config.getInstance().childInitialHearts);
                 });
-
-        System.out.println(child.getGenetics().getRace().name());
         return child;
     }
 
