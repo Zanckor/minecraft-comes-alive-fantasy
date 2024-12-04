@@ -2,8 +2,10 @@ package net.mca.client.render.layer;
 
 import net.mca.client.gui.immersive_library.SkinCache;
 import net.mca.client.resources.ColorPalette;
+import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.ai.Genetics;
 import net.mca.entity.ai.Traits;
+import net.mca.entity.race.Race;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -13,15 +15,28 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+
 import static net.mca.client.model.CommonVillagerModel.getVillager;
 
 public class HairLayer<T extends LivingEntity, M extends BipedEntityModel<T>> extends VillagerLayer<T, M> {
+    private static final List<Race> HAIRY_RACES = List.of(Race.HUMAN, Race.ELF, Race.DRAGONBORN, Race.FAIRY);
+
     public HairLayer(FeatureRendererContext<T, M> renderer, M model) {
         super(renderer, model);
     }
 
     @Override
     public void render(MatrixStack transform, VertexConsumerProvider provider, int light, T villager, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+        boolean hasHair = true;
+
+        if(villager instanceof VillagerEntityMCA villagerEntityMCA) {
+            hasHair = HAIRY_RACES.contains(villagerEntityMCA.getGenetics().getRace());
+        }
+        if (!hasHair) {
+            return;
+        }
+
         model.setVisible(true);
         this.model.leftLeg.visible = false;
         this.model.rightLeg.visible = false;

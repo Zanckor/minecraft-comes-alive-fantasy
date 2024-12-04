@@ -1,6 +1,7 @@
 package net.mca.client.render.layer;
 
 import net.mca.client.gui.immersive_library.SkinCache;
+import net.mca.entity.VillagerEntityMCA;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -9,7 +10,7 @@ import net.minecraft.util.Identifier;
 import static net.mca.client.model.CommonVillagerModel.getVillager;
 
 public class ClothingLayer<T extends LivingEntity, M extends BipedEntityModel<T>> extends VillagerLayer<T, M> {
-    private final String variant;
+    private String variant;
 
     public ClothingLayer(FeatureRendererContext<T, M> renderer, M model, String variant) {
         super(renderer, model);
@@ -18,6 +19,10 @@ public class ClothingLayer<T extends LivingEntity, M extends BipedEntityModel<T>
 
     @Override
     public Identifier getSkin(T villager) {
+        if(villager instanceof VillagerEntityMCA villagerEntityMCA && variant == null) {
+            variant = villagerEntityMCA.getGenetics().getRace().name().toLowerCase();
+        }
+
         String v = getVillager(villager).isBurned() ? "burnt" : variant;
         String identifier = getVillager(villager).getClothes();
 

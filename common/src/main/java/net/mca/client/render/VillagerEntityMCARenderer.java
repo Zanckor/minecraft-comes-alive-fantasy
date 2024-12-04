@@ -10,8 +10,9 @@ import net.mca.entity.race.Race;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.List;
 
@@ -20,18 +21,16 @@ public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<Vil
 
     public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
         super(ctx, createModel(VillagerEntityModelMCA.bodyData(Dilation.NONE)).hideWears());
-        VillagerEntityMCA entity = (VillagerEntityMCA) ctx.getRenderDispatcher().targetedEntity;
-        Race race = entity.getGenetics().getRace();
-        String variant = race.name().toLowerCase();
-        boolean hasHair = HAIRY_RACES.contains(race);
 
         addFeature(new SkinLayer<>(this, model));
         addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), "normal"));
-        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), variant));
+        addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
+        addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), null));
+    }
 
-        if (hasHair) {
-            addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
-        }
+    @Override
+    public void render(VillagerEntityMCA mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+        super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
 
     private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(ModelData data) {

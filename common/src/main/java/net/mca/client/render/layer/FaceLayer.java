@@ -2,6 +2,7 @@ package net.mca.client.render.layer;
 
 import net.mca.MCA;
 import net.mca.client.model.CommonVillagerModel;
+import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.ai.Genetics;
 import net.mca.entity.ai.Traits;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -14,7 +15,7 @@ import net.minecraft.util.Identifier;
 public class FaceLayer<T extends LivingEntity, M extends BipedEntityModel<T>> extends VillagerLayer<T, M> {
     private static final int FACE_COUNT = 22;
 
-    private final String variant;
+    private String variant;
 
     public FaceLayer(FeatureRendererContext<T, M> renderer, M model, String variant) {
         super(renderer, model);
