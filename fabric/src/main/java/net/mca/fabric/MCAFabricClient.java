@@ -46,8 +46,8 @@ public final class MCAFabricClient extends ClientProxyAbstractImpl implements Cl
             EntityRendererRegistry.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityRenderer::new);
             EntityRendererRegistry.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityRenderer::new);
         } else {
-            EntityRendererRegistry.register(EntitiesMCA.MALE_VILLAGER,context -> new VillagerEntityMCARenderer(context,true, "normal"));
-            EntityRendererRegistry.register(EntitiesMCA.FEMALE_VILLAGER,context -> new VillagerEntityMCARenderer(context,true, "normal"));
+            EntityRendererRegistry.register(EntitiesMCA.MALE_VILLAGER, VillagerEntityMCARenderer::new);
+            EntityRendererRegistry.register(EntitiesMCA.FEMALE_VILLAGER, VillagerEntityMCARenderer::new);
 
             EntityRendererRegistry.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
             EntityRendererRegistry.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER, ZombieVillagerEntityMCARenderer::new);
@@ -55,23 +55,23 @@ public final class MCAFabricClient extends ClientProxyAbstractImpl implements Cl
 
         /* MCA Fantasy */
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_GOBLIN,context -> new VillagerEntityMCARenderer(context,false, "goblin"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_GOBLIN,context -> new VillagerEntityMCARenderer(context,false, "goblin"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_GOBLIN, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_GOBLIN, VillagerEntityMCARenderer::new);
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_ELF, context -> new VillagerEntityMCARenderer(context, true, "elf"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_ELF, context -> new VillagerEntityMCARenderer(context, true, "elf"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_ELF, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_ELF, VillagerEntityMCARenderer::new);
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_DWARF, context -> new VillagerEntityMCARenderer(context, true, "dwarf"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DWARF, context -> new VillagerEntityMCARenderer(context, true, "dwarf"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_DWARF, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DWARF, VillagerEntityMCARenderer::new);
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_NETHERBORN, context -> new VillagerEntityMCARenderer(context, true, "netherborn"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_NETHERBORN, context -> new VillagerEntityMCARenderer(context, true, "netherborn"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_NETHERBORN, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_NETHERBORN, VillagerEntityMCARenderer::new);
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_FAIRY, context -> new VillagerEntityMCARenderer(context, true, "fairy"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_FAIRY, context -> new VillagerEntityMCARenderer(context, true, "fairy"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_FAIRY, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_FAIRY, VillagerEntityMCARenderer::new);
 
-        EntityRendererRegistry.register(EntitiesMCA.MALE_DRAGONBORN, context -> new VillagerEntityMCARenderer(context, true, "dragonborn"));
-        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DRAGONBORN, context -> new VillagerEntityMCARenderer(context, true, "dragonborn"));
+        EntityRendererRegistry.register(EntitiesMCA.MALE_DRAGONBORN, VillagerEntityMCARenderer::new);
+        EntityRendererRegistry.register(EntitiesMCA.FEMALE_DRAGONBORN, VillagerEntityMCARenderer::new);
 
         /* MCA */
 

@@ -53,8 +53,8 @@ public final class MCAForgeClient {
             EntityRenderers.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER.get(), ZombieVillagerEntityRenderer::new);
             EntityRenderers.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER.get(), ZombieVillagerEntityRenderer::new);
         } else {
-            EntityRenderers.register(EntitiesMCA.MALE_VILLAGER.get(),context -> new VillagerEntityMCARenderer(context,true, "normal"));
-            EntityRenderers.register(EntitiesMCA.FEMALE_VILLAGER.get(),context -> new VillagerEntityMCARenderer(context,true, "normal"));
+            EntityRenderers.register(EntitiesMCA.MALE_VILLAGER.get(), VillagerEntityMCARenderer::new);
+            EntityRenderers.register(EntitiesMCA.FEMALE_VILLAGER.get(), VillagerEntityMCARenderer::new);
 
             EntityRenderers.register(EntitiesMCA.MALE_ZOMBIE_VILLAGER.get(), ZombieVillagerEntityMCARenderer::new);
             EntityRenderers.register(EntitiesMCA.FEMALE_ZOMBIE_VILLAGER.get(), ZombieVillagerEntityMCARenderer::new);

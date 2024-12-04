@@ -121,6 +121,7 @@ public class VillagerFactory {
             return null;
         }
 
+
         villager.getGenetics().setGender(gender);
         villager.getGenetics().setRace(race);
         villager.setBreedingAge(age.orElseGet(() -> villager.getRandom().nextInt(AgeState.getMaxAge() * 3) - AgeState.getMaxAge()));

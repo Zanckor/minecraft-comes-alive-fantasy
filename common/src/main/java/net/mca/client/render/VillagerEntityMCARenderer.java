@@ -6,14 +6,24 @@ import net.mca.client.render.layer.FaceLayer;
 import net.mca.client.render.layer.HairLayer;
 import net.mca.client.render.layer.SkinLayer;
 import net.mca.entity.VillagerEntityMCA;
+import net.mca.entity.race.Race;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.entity.Entity;
+
+import java.util.List;
 
 public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<VillagerEntityMCA> {
-    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx, boolean hasHair, String variant) {
+    private static final List<Race> HAIRY_RACES = List.of(Race.HUMAN, Race.ELF, Race.DRAGONBORN, Race.FAIRY);
+
+    public VillagerEntityMCARenderer(EntityRendererFactory.Context ctx) {
         super(ctx, createModel(VillagerEntityModelMCA.bodyData(Dilation.NONE)).hideWears());
+        VillagerEntityMCA entity = (VillagerEntityMCA) ctx.getRenderDispatcher().targetedEntity;
+        Race race = entity.getGenetics().getRace();
+        String variant = race.name().toLowerCase();
+        boolean hasHair = HAIRY_RACES.contains(race);
 
         addFeature(new SkinLayer<>(this, model));
         addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), "normal"));
