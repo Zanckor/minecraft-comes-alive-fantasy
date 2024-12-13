@@ -33,7 +33,7 @@ public class Genetics implements Iterable<Genetics.Gene> {
     public static final GeneType VOICE_TONE = new GeneType("gene_voice_tone");
 
     public static final CEnumParameter<Gender> GENDER = CParameter.create("gender", Gender.UNASSIGNED);
-    public static final CEnumParameter<Race> RACE = CParameter.create("race", Race.HUMAN);
+    public static final CEnumParameter<Race> RACE = CParameter.create("race", Race.NONE);
 
     public static <E extends Entity> CDataManager.Builder<E> createTrackedData(CDataManager.Builder<E> builder) {
         GENOMES.forEach(g -> builder.addAll(g.getParam()));

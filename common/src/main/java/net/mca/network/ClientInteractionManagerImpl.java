@@ -9,6 +9,7 @@ import net.mca.client.gui.*;
 import net.mca.entity.EntitiesMCA;
 import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.VillagerLike;
+import net.mca.entity.race.Race;
 import net.mca.item.BabyItem;
 import net.mca.item.ExtendedWrittenBookItem;
 import net.mca.network.s2c.*;
@@ -60,7 +61,9 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
             case VILLAGER_EDITOR:
                 entity = client.world.getEntityById(message.villager);
                 assert entity != null;
-                client.setScreen(new VillagerEditorScreen(entity.getUuid(), MinecraftClient.getInstance().player.getUuid()));
+                VillagerEntityMCA villager = (VillagerEntityMCA) entity;
+
+                client.setScreen(new VillagerEditorScreen(entity.getUuid(), MinecraftClient.getInstance().player.getUuid(), villager.getGenetics().getRace()));
                 break;
             case LIMITED_VILLAGER_EDITOR:
                 entity = client.world.getEntityById(message.villager);
@@ -209,7 +212,9 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
     public void handlePlayerDataMessage(PlayerDataMessage response) {
         VillagerEntityMCA villager = EntitiesMCA.MALE_VILLAGER.get().create(MinecraftClient.getInstance().world);
         assert villager != null;
+
         villager.readCustomDataFromNbt(response.getData());
+
         MCAClient.addPlayerData(response.uuid, villager);
     }
 

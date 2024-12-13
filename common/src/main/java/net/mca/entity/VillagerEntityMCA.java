@@ -1347,7 +1347,9 @@ public class VillagerEntityMCA extends VillagerEntity implements VillagerLike<Vi
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
 
-        nbt.putInt("race", genetics.getRace().ordinal());
+        if(genetics.getRace() == Race.NONE){
+            nbt.putInt("race", genetics.getRace().ordinal());
+        }
 
         getTypeDataManager().load(this, nbt);
         relations.readFromNbt(nbt);

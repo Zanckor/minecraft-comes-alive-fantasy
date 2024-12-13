@@ -5,12 +5,16 @@ import net.mca.Config;
 import net.mca.MCA;
 import net.mca.MCAClient;
 import net.mca.cobalt.network.NetworkHandler;
+import net.mca.entity.race.Race;
 import net.mca.network.c2s.DestinyMessage;
+import net.mca.network.c2s.VillagerEditorSyncRequest;
 import net.mca.util.compat.ButtonWidget;
 import net.mca.util.localization.FlowingText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -49,6 +53,7 @@ public class DestinyScreen extends VillagerEditorScreen {
     protected String[] getPages() {
         LinkedList<String> pages = new LinkedList<>();
         pages.add("general");
+        pages.add("race");
         if (Config.getInstance().allowBodyCustomizationInDestiny) {
             pages.add("body");
             pages.add("head");
@@ -89,6 +94,36 @@ public class DestinyScreen extends VillagerEditorScreen {
                 RenderSystem.setShaderColor(1, 1, 1, 1);
                 context.drawTexture(LOGO_TEXTURE, width * 2 - 512, -40, 0, 0, 1024, 512, 1024, 512);
                 matrices.pop();
+            }
+            case "race" -> {
+                int y = height / 2 - 80;
+                boolean right = false;
+
+                List<ButtonWidget> raceButtons = new LinkedList<>();
+                for (Race race : Race.values()) {
+                    if (race == Race.NONE) continue;
+
+                    MutableText text = Text.translatable("entity.mca.race." + race.name().toLowerCase());
+                    ButtonWidget widget = addDrawableChild(new ButtonWidget(width / 2 + (right ? DATA_WIDTH / 2 : 0), y, DATA_WIDTH / 2, 20, text, currentButton -> {
+                        NbtCompound compound = new NbtCompound();
+                        compound.putInt("race", race.ordinal());
+                        this.race = race;
+
+                        syncVillagerData();
+
+                        NetworkHandler.sendToServer(new VillagerEditorSyncRequest("race", playerUUID, compound));
+                        requestVillagerData();
+                    }));
+
+                    raceButtons.add(widget);
+
+                    if (right) {
+                        y += 20;
+                    }
+                    right = !right;
+                }
+
+                y += 4;
             }
             case "destiny" ->
                     drawScaledText(context, Text.translatable("gui.destiny.journey"), width / 2, height / 2 - 48, 1.5f);

@@ -102,6 +102,11 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
         this(villagerUUID, playerUUID, MCAClient.isPlayerRendererAllowed(), MCAClient.isVillagerRendererAllowed());
     }
 
+    public VillagerEditorScreen(UUID villagerUUID, UUID playerUUID, Race race) {
+        this(villagerUUID, playerUUID, MCAClient.isPlayerRendererAllowed(), MCAClient.isVillagerRendererAllowed());
+        this.race = race;
+    }
+
     @Override
     public boolean shouldPause() {
         return false;
@@ -478,6 +483,8 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
 
                 List<ButtonWidget> raceButtons = new LinkedList<>();
                 for (Race race : Race.values()) {
+                    if (race == Race.NONE) continue;
+
                     MutableText text = Text.translatable("entity.mca.race." + race.name().toLowerCase());
                     ButtonWidget widget = addDrawableChild(new ButtonWidget(width / 2 + (right ? DATA_WIDTH / 2 : 0), y, DATA_WIDTH / 2, 20, text, currentButton -> {
                         NbtCompound compound = new NbtCompound();

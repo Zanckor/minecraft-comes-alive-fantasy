@@ -7,12 +7,12 @@ import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.VillagerLike;
 import net.mca.entity.ai.relationship.Gender;
 import net.mca.entity.race.Race;
-import net.mca.server.world.data.FamilyTree;
-import net.mca.server.world.data.FamilyTreeNode;
 import net.mca.network.NbtDataMessage;
 import net.mca.network.s2c.PlayerDataMessage;
 import net.mca.resources.ClothingList;
 import net.mca.resources.HairList;
+import net.mca.server.world.data.FamilyTree;
+import net.mca.server.world.data.FamilyTreeNode;
 import net.mca.server.world.data.PlayerSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -84,6 +84,15 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
         }
     }
 
+
+    private void setRace(ServerPlayerEntity player, Entity entity, Race race) {
+        NbtCompound villagerData = GetVillagerRequest.getVillagerData(entity);
+        if (villagerData != null) {
+            villagerData.putInt("race", race.ordinal());
+            saveEntity(player, entity, villagerData);
+        }
+    }
+
     @Override
     public void receive(ServerPlayerEntity player) {
         Entity entity = player.getServerWorld().getEntity(uuid);
@@ -99,10 +108,8 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
                 setClothing(player, entity);
                 break;
             case "race":
-                if(entity instanceof VillagerEntityMCA villager) {
-                    Race race = Race.valueOf(getData().getInt("race"));
-                    villager.getGenetics().setRace(race);
-                }
+                Race race = Race.valueOf(getData().getInt("race"));
+                setRace(player, entity, race);
                 break;
             case "sync":
                 saveEntity(player, entity, getData());
@@ -125,9 +132,11 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
             syncFamilyTree(player, entity, villagerData);
 
             //also update players
-            serverPlayer.getServerWorld().getPlayers().forEach(p -> NetworkHandler.sendToPlayer(new PlayerDataMessage(player.getUuid(), villagerData), p));
+            serverPlayer.getServerWorld().getPlayers().forEach(p -> {
+                NetworkHandler.sendToPlayer(new PlayerDataMessage(player.getUuid(), villagerData), p);
+            });
         } else if (entity instanceof VillagerLike) {
-            ((LivingEntity)entity).readCustomDataFromNbt(villagerData);
+            ((LivingEntity) entity).readCustomDataFromNbt(villagerData);
             entity.calculateDimensions();
             syncFamilyTree(player, entity, villagerData);
 
@@ -174,7 +183,7 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
     }
 
     private void syncFamilyTree(ServerPlayerEntity player, Entity entity, NbtCompound villagerData) {
-        FamilyTree tree = FamilyTree.get((ServerWorld)entity.getWorld());
+        FamilyTree tree = FamilyTree.get((ServerWorld) entity.getWorld());
         FamilyTreeNode entry = tree.getOrCreate(entity);
         entry.setGender(getGender(getData()));
         entry.setName(getData().getString("villagerName"));

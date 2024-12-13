@@ -9,7 +9,8 @@ public enum Race {
     DWARF,
     NETHERBORN,
     FAIRY,
-    DRAGONBORN;
+    DRAGONBORN,
+    NONE;
 
     public static Race getRaceType(String raceType, Race defaultRaceType) {
         for (Race type : Race.values()) {
