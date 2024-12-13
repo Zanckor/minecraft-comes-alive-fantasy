@@ -16,6 +16,7 @@ import net.mca.entity.ai.Traits;
 import net.mca.entity.ai.relationship.AgeState;
 import net.mca.entity.ai.relationship.Gender;
 import net.mca.entity.ai.relationship.Personality;
+import net.mca.entity.race.Race;
 import net.mca.network.c2s.GetVillagerRequest;
 import net.mca.network.c2s.SkinListRequest;
 import net.mca.network.c2s.VillagerEditorSyncRequest;
@@ -72,6 +73,7 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
     private Gender filterGender = Gender.NEUTRAL;
     private String searchString = "";
     private int hoveredClothingId;
+    protected Race race = null;
 
     final int CLOTHES_H = 8;
     final int CLOTHES_V = 2;
@@ -471,6 +473,33 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                 //mood
                 integerChanger(y, v -> villager.getVillagerBrain().modifyMoodValue(v), () -> Text.translatable("gui.interact.label.mood", villager.getVillagerBrain().getMoodValue()));
             }
+            case "race" -> {
+                boolean right = false;
+
+                List<ButtonWidget> raceButtons = new LinkedList<>();
+                for (Race race : Race.values()) {
+                    MutableText text = Text.translatable("entity.mca.race." + race.name().toLowerCase());
+                    ButtonWidget widget = addDrawableChild(new ButtonWidget(width / 2 + (right ? DATA_WIDTH / 2 : 0), y, DATA_WIDTH / 2, 20, text, currentButton -> {
+                        NbtCompound compound = new NbtCompound();
+                        compound.putInt("race", race.ordinal());
+                        this.race = race;
+
+                        syncVillagerData();
+
+                        NetworkHandler.sendToServer(new VillagerEditorSyncRequest("race", villagerUUID, compound));
+                        requestVillagerData();
+                    }));
+
+                    raceButtons.add(widget);
+
+                    if (right) {
+                        y += 20;
+                    }
+                    right = !right;
+                }
+
+                y += 4;
+            }
             case "clothing", "hair" -> {
                 filterGender = villager.getGenetics().getGender();
                 searchString = "";
@@ -581,9 +610,9 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
 
     protected String[] getPages() {
         if (villagerUUID.equals(playerUUID)) {
-            return new String[]{"general", "body", "head", "traits"};
+            return new String[]{"general", "body", "head", "traits", "race"};
         } else {
-            return new String[]{"general", "body", "head", "personality", "traits", "debug"};
+            return new String[]{"general", "body", "head", "personality", "traits", "debug", "race"};
         }
     }
 
@@ -788,6 +817,7 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                 assert MinecraftClient.getInstance().player != null;
                 InventoryScreen.drawEntity(context, x, y, 60, x - mouseX, y - 50 - mouseY, MinecraftClient.getInstance().player);
             } else {
+                if(race != null) villager.getGenetics().setRace(race);
                 InventoryScreen.drawEntity(context, x, y, 60, x - mouseX, y - 50 - mouseY, villager);
             }
 
@@ -878,7 +908,7 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
         }
     }
 
-    private void requestVillagerData() {
+    protected void requestVillagerData() {
         NetworkHandler.sendToServer(new GetVillagerRequest(villagerUUID));
     }
 

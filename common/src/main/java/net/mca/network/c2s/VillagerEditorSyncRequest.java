@@ -6,6 +6,7 @@ import net.mca.cobalt.network.NetworkHandler;
 import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.VillagerLike;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.entity.race.Race;
 import net.mca.server.world.data.FamilyTree;
 import net.mca.server.world.data.FamilyTreeNode;
 import net.mca.network.NbtDataMessage;
@@ -96,6 +97,12 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
             case "gender":
                 setHair(player, entity);
                 setClothing(player, entity);
+                break;
+            case "race":
+                if(entity instanceof VillagerEntityMCA villager) {
+                    Race race = Race.valueOf(getData().getInt("race"));
+                    villager.getGenetics().setRace(race);
+                }
                 break;
             case "sync":
                 saveEntity(player, entity, getData());
