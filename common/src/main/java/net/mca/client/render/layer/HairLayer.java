@@ -2,7 +2,6 @@ package net.mca.client.render.layer;
 
 import net.mca.client.gui.immersive_library.SkinCache;
 import net.mca.client.resources.ColorPalette;
-import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.ai.Genetics;
 import net.mca.entity.ai.Traits;
 import net.mca.entity.race.Race;
@@ -28,11 +27,9 @@ public class HairLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
 
     @Override
     public void render(MatrixStack transform, VertexConsumerProvider provider, int light, T villager, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        boolean hasHair = true;
+        Race race = getVillager(villager).getGenetics().getRace();
+        boolean hasHair = HAIRY_RACES.contains(race);
 
-        if(villager instanceof VillagerEntityMCA villagerEntityMCA) {
-            hasHair = HAIRY_RACES.contains(villagerEntityMCA.getGenetics().getRace());
-        }
         if (!hasHair) {
             return;
         }
@@ -63,10 +60,10 @@ public class HairLayer<T extends LivingEntity, M extends BipedEntityModel<T>> ex
         int o = DyeColor.values().length;
         int p = n % o;
         int q = (n + 1) % o;
-        float r = ((float)(Math.abs(entity.age) % 25) + tickDelta) / 25.0f;
+        float r = ((float) (Math.abs(entity.age) % 25) + tickDelta) / 25.0f;
         float[] fs = SheepEntity.getRgbColor(DyeColor.byId(p));
         float[] gs = SheepEntity.getRgbColor(DyeColor.byId(q));
-        return new float[] {
+        return new float[]{
                 fs[0] * (1.0f - r) + gs[0] * r,
                 fs[1] * (1.0f - r) + gs[1] * r,
                 fs[2] * (1.0f - r) + gs[2] * r
