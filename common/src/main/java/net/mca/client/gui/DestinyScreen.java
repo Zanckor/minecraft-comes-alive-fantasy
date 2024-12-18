@@ -111,11 +111,12 @@ public class DestinyScreen extends VillagerEditorScreen {
 
                         syncVillagerData();
 
-                        NetworkHandler.sendToServer(new VillagerEditorSyncRequest("race", playerUUID, compound));
+                        NetworkHandler.sendToServer(new VillagerEditorSyncRequest("race", villagerUUID, compound));
                         requestVillagerData();
                     }));
 
                     raceButtons.add(widget);
+                    widget.active = this.race != race;
 
                     if (right) {
                         y += 20;
