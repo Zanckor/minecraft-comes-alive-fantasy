@@ -96,6 +96,7 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
     @Override
     public void receive(ServerPlayerEntity player) {
         Entity entity = player.getServerWorld().getEntity(uuid);
+
         switch (command) {
             case "hair":
                 setHair(player, entity);
@@ -136,12 +137,16 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
                 NetworkHandler.sendToPlayer(new PlayerDataMessage(player.getUuid(), villagerData), p);
             });
         } else if (entity instanceof VillagerLike) {
+            Race race = Race.valueOf(villagerData.getInt("race"));
             ((LivingEntity) entity).readCustomDataFromNbt(villagerData);
+
             entity.calculateDimensions();
             syncFamilyTree(player, entity, villagerData);
+            villagerData.putInt("race", race.ordinal());
 
             if (entity instanceof VillagerEntityMCA villager) {
                 villager.getResidency().getHomeVillage().ifPresent(b -> b.updateResident(villager));
+                villager.getGenetics().setRace(race);
             }
         }
     }

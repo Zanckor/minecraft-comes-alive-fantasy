@@ -498,6 +498,7 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                     }));
 
                     raceButtons.add(widget);
+                    widget.active = this.race != race;
 
                     if (right) {
                         y += 20;
