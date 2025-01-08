@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.mca.entity.interaction.Constraint;
 import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.interaction.InteractionPredicate;
+import net.mca.entity.race.Race;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.LinkedList;
@@ -14,14 +15,16 @@ import java.util.Set;
 
 public class Question {
     private final String name;
+    private final Race race;
     private final List<Answer> answers;
     private final boolean auto;
     private final boolean silent;
 
     private final Random random = new Random();
 
-    public Question(String id, List<Answer> answers, boolean auto, boolean silent) {
+    public Question(String id, Race race, List<Answer> answers, boolean auto, boolean silent) {
         this.name = id;
+        this.race = race;
         this.answers = answers;
         this.auto = auto;
         this.silent = silent;
@@ -30,6 +33,7 @@ public class Question {
     public static Question fromJson(String id, JsonObject json) {
         boolean auto = json.has("auto") && json.get("auto").getAsBoolean();
         boolean silent = json.has("silent") && json.get("silent").getAsBoolean();
+        Race race = json.has("race") ? Race.valueOf(json.get("race").getAsString().toUpperCase()) : Race.NONE;
 
         List<Answer> answers = new LinkedList<>();
         for (JsonElement e : json.getAsJsonArray("answers")) {
@@ -50,7 +54,7 @@ public class Question {
             }
         }
 
-        return new Question(id, answers, auto, silent);
+        return new Question(id, race, answers, auto, silent);
     }
 
     public String getName() {
@@ -84,6 +88,10 @@ public class Question {
 
     public boolean isAuto() {
         return auto;
+    }
+
+    public Race getRace() {
+        return race;
     }
 
     public List<String> getValidAnswers(ServerPlayerEntity player, VillagerEntityMCA villager) {

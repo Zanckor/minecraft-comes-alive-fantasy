@@ -27,6 +27,8 @@ public class InteractionDialogueInitMessage implements Message {
         Entity v = player.getServerWorld().getEntity(villagerUUID);
         if (v instanceof VillagerEntityMCA villager) {
             Question question = Dialogues.getInstance().getQuestion("root");
+            if(question.getRace() != villager.getGenetics().getRace()) return;
+
             if (question.isAuto()) {
                 Dialogues.getInstance().selectAnswer(villager, player, question.getName(), question.getRandomAnswer().getName());
             } else {
