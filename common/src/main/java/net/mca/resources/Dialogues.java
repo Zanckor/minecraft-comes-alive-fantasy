@@ -17,6 +17,7 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -77,6 +78,7 @@ public class Dialogues extends JsonDataLoader {
         //fetch chances for each result
         int total = 0;
         List<IntAnalysis> analysis = new LinkedList<>();
+
         for (Result r : answer.getResults()) {
             IntAnalysis a = r.getChances(villager, player);
             analysis.add(a);
@@ -86,6 +88,7 @@ public class Dialogues extends JsonDataLoader {
         //choose weighted random
         int chosen = -1;
         total = total == 0 ? 0 : villager.getRandom().nextInt(total);
+
         for (IntAnalysis a : analysis) {
             total -= Math.max(0, a.getTotal());
             chosen++;
@@ -98,18 +101,23 @@ public class Dialogues extends JsonDataLoader {
 
         //send analysis (if there is a heart impact at all)
         if (chosenActions.isNegative() || chosenActions.isPositive()) {
-            ChanceAnalysis finalAnalysis = new ChanceAnalysis();
-            for (int i = 0; i < analysis.size(); i++) {
-                boolean positive = answer.getResults().get(i).getActions().isPositive();
-                boolean negative = answer.getResults().get(i).getActions().isNegative();
-                for (SerializablePair<String, Integer> value : analysis.get(i).getSummands()) {
-                    finalAnalysis.add(value.getLeft(), value.getRight() * (positive ? 1 : negative ? -1 : 0));
-                }
-            }
+            final var finalAnalysis = getAnalysisElements(analysis, answer);
             NetworkHandler.sendToPlayer(new AnalysisResults(finalAnalysis), player);
         }
 
         //execute that results actions
         chosenActions.trigger(villager, player);
+    }
+
+    private static @NotNull ChanceAnalysis getAnalysisElements(List<IntAnalysis> analysis, Answer answer) {
+        ChanceAnalysis finalAnalysis = new ChanceAnalysis();
+        for (int i = 0; i < analysis.size(); i++) {
+            boolean positive = answer.getResults().get(i).getActions().isPositive();
+            boolean negative = answer.getResults().get(i).getActions().isNegative();
+            for (SerializablePair<String, Integer> value : analysis.get(i).getSummands()) {
+                finalAnalysis.add(value.getLeft(), value.getRight() * (positive ? 1 : negative ? -1 : 0));
+            }
+        }
+        return finalAnalysis;
     }
 }

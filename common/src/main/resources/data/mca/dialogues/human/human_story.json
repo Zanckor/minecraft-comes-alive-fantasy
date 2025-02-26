@@ -1,5 +1,6 @@
 {
   "silent": true,
+  "race": "human",
   "baseConditions": [
     [
       {

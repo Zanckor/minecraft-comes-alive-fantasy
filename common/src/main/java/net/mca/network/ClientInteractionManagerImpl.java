@@ -163,6 +163,8 @@ public class ClientInteractionManagerImpl implements ClientInteractionManager {
         Screen screen = client.currentScreen;
         if (screen instanceof InteractScreen gui) {
             gui.setDialogue(message.question, message.answers);
+
+            System.out.println(message.question + " -> " + message.answers);
         }
     }
 

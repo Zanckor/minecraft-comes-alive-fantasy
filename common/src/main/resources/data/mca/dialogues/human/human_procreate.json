@@ -1,12 +1,13 @@
 {
   "silent": true,
+  "race": "human",
   "answers": [
     {
       "name": "confirm",
       "results": [
         {
           "actions": {
-            "command": "divorceConfirm"
+            "command": "procreate"
           }
         }
       ]

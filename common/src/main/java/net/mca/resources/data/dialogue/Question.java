@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.mca.entity.interaction.Constraint;
 import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.interaction.InteractionPredicate;
+import net.mca.entity.race.Race;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.LinkedList;
@@ -17,19 +18,23 @@ public class Question {
     private final List<Answer> answers;
     private final boolean auto;
     private final boolean silent;
+    private final Race race;
 
     private final Random random = new Random();
 
-    public Question(String id, List<Answer> answers, boolean auto, boolean silent) {
+    public Question(String id, List<Answer> answers, boolean auto, boolean silent, Race race) {
         this.name = id;
         this.answers = answers;
         this.auto = auto;
         this.silent = silent;
+        this.race = race;
     }
 
     public static Question fromJson(String id, JsonObject json) {
         boolean auto = json.has("auto") && json.get("auto").getAsBoolean();
         boolean silent = json.has("silent") && json.get("silent").getAsBoolean();
+        String raceString = json.has("race") ? json.get("race").getAsString() : Race.NONE.name();
+        Race race = Race.getRaceType(raceString, Race.NONE);
 
         List<Answer> answers = new LinkedList<>();
         for (JsonElement e : json.getAsJsonArray("answers")) {
@@ -50,7 +55,7 @@ public class Question {
             }
         }
 
-        return new Question(id, answers, auto, silent);
+        return new Question(id, answers, auto, silent, race);
     }
 
     public String getName() {
@@ -59,6 +64,10 @@ public class Question {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public Race getRace() {
+        return race;
     }
 
     public boolean isCloseScreen() {

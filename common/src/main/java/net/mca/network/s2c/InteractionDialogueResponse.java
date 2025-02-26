@@ -3,6 +3,7 @@ package net.mca.network.s2c;
 import net.mca.ClientProxy;
 import net.mca.cobalt.network.Message;
 import net.mca.entity.VillagerEntityMCA;
+import net.mca.entity.race.Race;
 import net.mca.resources.data.dialogue.Question;
 import net.minecraft.server.network.ServerPlayerEntity;
 

@@ -1,6 +1,7 @@
 {
   "silent": true,
   "auto": true,
+  "race": "human",
   "answers": [
     {
       "results": [
