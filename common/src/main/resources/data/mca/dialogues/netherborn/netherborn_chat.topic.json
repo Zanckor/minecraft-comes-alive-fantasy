@@ -1,0 +1,76 @@
+{
+  "silent": true,
+  "auto": true,
+  "answers": [
+    {
+      "results": [
+        {
+          "baseChance": 4,
+          "actions": {
+            "next": "netherborn_chat.success"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:plains"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_chat.plains"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:savanna"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_chat.savanna"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:taiga"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_chat.taiga"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:snowy_plains"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_chat.snowy_plains"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:desert"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_chat.desert"
+          }
+        }
+      ]
+    }
+  ]
+}

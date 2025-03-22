@@ -1,0 +1,232 @@
+{
+  "silent": true,
+  "answers": [
+    {
+      "name": "rock_paper_scissor",
+      "constraints": "!adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_rock_paper_scissor"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hire",
+      "constraints": "adventurer",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_hire"
+          }
+        }
+      ]
+    },
+    {
+      "name": "stay",
+      "constraints": "adventurer",
+      "results": [
+        {
+          "baseChance": 10,
+          "conditions": [
+            {
+              "chance": 100,
+              "hearts": {
+                "add": 0.0,
+                "max": 1.0,
+                "dividend": 100
+              }
+            }
+          ],
+          "actions": {
+            "next": "dragonborn_stay.success",
+            "command": "stay_in_village"
+          }
+        },
+        {
+          "baseChance": 10,
+          "actions": {
+            "next": "dragonborn_stay.fail",
+            "remember": {
+              "id": "asked_to_stay",
+              "var": "player"
+            }
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 100000,
+              "memory": {
+                "id": "asked_to_stay",
+                "var": "player",
+                "dividend": 1.0
+              }
+            }
+          ],
+          "actions": {
+            "next": "dragonborn_stay.repeat",
+            "remember": {
+              "id": "asked_to_stay",
+              "var": "player"
+            }
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 100000,
+              "constraints": "!village_has_space"
+            }
+          ],
+          "actions": {
+            "next": "dragonborn_stay.no_space"
+          }
+        }
+      ]
+    },
+    {
+      "name": "apologize",
+      "constraints": "hit_by",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_apologize"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rumors",
+      "constraints": "rumors_cooldown",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_rumors"
+          }
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_chat"
+          }
+        }
+      ]
+    },
+    {
+      "name": "joke",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_joke"
+          }
+        }
+      ]
+    },
+    {
+      "name": "story",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_story"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hug",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_hug"
+          }
+        }
+      ]
+    },
+    {
+      "name": "flirt",
+      "constraints": "!kids,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_flirt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "kiss",
+      "constraints": "!kids,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_kiss"
+          }
+        }
+      ]
+    },
+    {
+      "name": "procreate",
+      "constraints": "spouse,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_procreate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "procreate_engaged",
+      "constraints": "engaged,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_procreate_engaged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "divorcePapers",
+      "constraints": "cleric,!spouse,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_divorcePapers",
+            "command": "divorcePapers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "divorceInitiate",
+      "constraints": "spouse",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_divorce"
+          }
+        }
+      ]
+    },
+    {
+      "name": "adopt",
+      "constraints": "orphan,!adult",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_adopt"
+          }
+        }
+      ]
+    }
+  ]
+}

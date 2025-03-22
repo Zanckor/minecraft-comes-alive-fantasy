@@ -1,0 +1,40 @@
+{
+  "auto": true,
+  "silent": true,
+  "answers": [
+    {
+      "results": [
+        {
+          "baseChance": 1,
+          "actions": {
+            "next": "elf_main",
+            "say": "elf_main"
+          }
+        },
+        {
+          "baseChance": 8,
+          "actions": {
+            "next": "elf_main",
+            "say": "elf_first.generic"
+          }
+        },
+        {
+          "baseChance": 5,
+          "conditions": [
+            {
+              "chance": -5,
+              "profession": "mca:guard"
+            },
+            {
+              "chance": -5,
+              "profession": "mca:archer"
+            }
+          ],
+          "actions": {
+            "next": "elf_first.question"
+          }
+        }
+      ]
+    }
+  ]
+}

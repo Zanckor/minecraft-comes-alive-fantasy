@@ -1,0 +1,25 @@
+{
+  "silent": true,
+  "answers": [
+    {
+      "name": "confirm",
+      "results": [
+        {
+          "actions": {
+            "command": "dragonborn_adopt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancel",
+      "results": [
+        {
+          "actions": {
+            "next": "dragonborn_main"
+          }
+        }
+      ]
+    }
+  ]
+}

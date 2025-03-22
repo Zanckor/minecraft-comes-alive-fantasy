@@ -1,0 +1,25 @@
+{
+  "silent": true,
+  "answers": [
+    {
+      "name": "confirm",
+      "results": [
+        {
+          "actions": {
+            "command": "fairy_adopt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancel",
+      "results": [
+        {
+          "actions": {
+            "next": "fairy_main"
+          }
+        }
+      ]
+    }
+  ]
+}

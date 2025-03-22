@@ -1,0 +1,40 @@
+{
+  "auto": true,
+  "silent": true,
+  "answers": [
+    {
+      "results": [
+        {
+          "baseChance": 1,
+          "actions": {
+            "next": "netherborn_main",
+            "say": "netherborn_main"
+          }
+        },
+        {
+          "baseChance": 8,
+          "actions": {
+            "next": "netherborn_main",
+            "say": "netherborn_first.generic"
+          }
+        },
+        {
+          "baseChance": 5,
+          "conditions": [
+            {
+              "chance": -5,
+              "profession": "mca:guard"
+            },
+            {
+              "chance": -5,
+              "profession": "mca:archer"
+            }
+          ],
+          "actions": {
+            "next": "netherborn_first.question"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "silent": true,
+  "answers": [
+    {
+      "name": "rock_paper_scissor",
+      "constraints": "!adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_rock_paper_scissor"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hire",
+      "constraints": "adventurer",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_hire"
+          }
+        }
+      ]
+    },
+    {
+      "name": "stay",
+      "constraints": "adventurer",
+      "results": [
+        {
+          "baseChance": 10,
+          "conditions": [
+            {
+              "chance": 100,
+              "hearts": {
+                "add": 0.0,
+                "max": 1.0,
+                "dividend": 100
+              }
+            }
+          ],
+          "actions": {
+            "next": "goblin_stay.success",
+            "command": "stay_in_village"
+          }
+        },
+        {
+          "baseChance": 10,
+          "actions": {
+            "next": "goblin_stay.fail",
+            "remember": {
+              "id": "asked_to_stay",
+              "var": "player"
+            }
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 100000,
+              "memory": {
+                "id": "asked_to_stay",
+                "var": "player",
+                "dividend": 1.0
+              }
+            }
+          ],
+          "actions": {
+            "next": "goblin_stay.repeat",
+            "remember": {
+              "id": "asked_to_stay",
+              "var": "player"
+            }
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 100000,
+              "constraints": "!village_has_space"
+            }
+          ],
+          "actions": {
+            "next": "goblin_stay.no_space"
+          }
+        }
+      ]
+    },
+    {
+      "name": "apologize",
+      "constraints": "hit_by",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_apologize"
+          }
+        }
+      ]
+    },
+    {
+      "name": "rumors",
+      "constraints": "rumors_cooldown",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_rumors"
+          }
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_chat"
+          }
+        }
+      ]
+    },
+    {
+      "name": "joke",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_joke"
+          }
+        }
+      ]
+    },
+    {
+      "name": "story",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_story"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hug",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_hug"
+          }
+        }
+      ]
+    },
+    {
+      "name": "flirt",
+      "constraints": "!kids,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_flirt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "kiss",
+      "constraints": "!kids,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_kiss"
+          }
+        }
+      ]
+    },
+    {
+      "name": "procreate",
+      "constraints": "spouse,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_procreate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "procreate_engaged",
+      "constraints": "engaged,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_procreate_engaged"
+          }
+        }
+      ]
+    },
+    {
+      "name": "divorcePapers",
+      "constraints": "cleric,!spouse,adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_divorcePapers",
+            "command": "divorcePapers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "divorceInitiate",
+      "constraints": "spouse",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_divorce"
+          }
+        }
+      ]
+    },
+    {
+      "name": "adopt",
+      "constraints": "orphan,!adult",
+      "results": [
+        {
+          "actions": {
+            "next": "goblin_adopt"
+          }
+        }
+      ]
+    }
+  ]
+}

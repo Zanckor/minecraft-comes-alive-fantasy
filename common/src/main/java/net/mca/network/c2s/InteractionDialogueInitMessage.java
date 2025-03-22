@@ -3,6 +3,7 @@ package net.mca.network.c2s;
 import net.mca.cobalt.network.Message;
 import net.mca.cobalt.network.NetworkHandler;
 import net.mca.entity.VillagerEntityMCA;
+import net.mca.entity.race.Race;
 import net.mca.network.s2c.InteractionDialogueResponse;
 import net.mca.resources.Dialogues;
 import net.mca.resources.data.dialogue.Question;
@@ -26,8 +27,8 @@ public class InteractionDialogueInitMessage implements Message {
     public void receive(ServerPlayerEntity player) {
         Entity v = player.getServerWorld().getEntity(villagerUUID);
         if (v instanceof VillagerEntityMCA villager) {
-            Question question = Dialogues.getInstance().getQuestion("root");
-            if(question.getRace() != villager.getGenetics().getRace()) return;
+            Race race = villager.getGenetics().getRace() != Race.NONE ? villager.getGenetics().getRace() : Race.HUMAN;
+            Question question = Dialogues.getInstance().getQuestion(race.name().toLowerCase() + "_root");
 
             if (question.isAuto()) {
                 Dialogues.getInstance().selectAnswer(villager, player, question.getName(), question.getRandomAnswer().getName());

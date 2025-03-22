@@ -1,0 +1,25 @@
+{
+  "silent": true,
+  "answers": [
+    {
+      "name": "confirm",
+      "results": [
+        {
+          "actions": {
+            "command": "human_adopt"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancel",
+      "results": [
+        {
+          "actions": {
+            "next": "human_main"
+          }
+        }
+      ]
+    }
+  ]
+}

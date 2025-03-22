@@ -1,0 +1,76 @@
+{
+  "silent": true,
+  "auto": true,
+  "answers": [
+    {
+      "results": [
+        {
+          "baseChance": 4,
+          "actions": {
+            "next": "fairy_chat.success"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:plains"
+            }
+          ],
+          "actions": {
+            "next": "fairy_chat.plains"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:savanna"
+            }
+          ],
+          "actions": {
+            "next": "fairy_chat.savanna"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:taiga"
+            }
+          ],
+          "actions": {
+            "next": "fairy_chat.taiga"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:snowy_plains"
+            }
+          ],
+          "actions": {
+            "next": "fairy_chat.snowy_plains"
+          }
+        },
+        {
+          "baseChance": 0,
+          "conditions": [
+            {
+              "chance": 1,
+              "biome": "minecraft:desert"
+            }
+          ],
+          "actions": {
+            "next": "fairy_chat.desert"
+          }
+        }
+      ]
+    }
+  ]
+}
