@@ -200,8 +200,8 @@ public class SpawnQueue {
     }
 
     private static String getChunkGroupKey(ChunkPos chunkPos) {
-        int groupX = Math.floorDiv(chunkPos.x, 5);
-        int groupZ = Math.floorDiv(chunkPos.z, 5);
+        int groupX = Math.floorDiv(chunkPos.x, 10);
+        int groupZ = Math.floorDiv(chunkPos.z, 10);
         return groupX + "," + groupZ;
     }
 }
