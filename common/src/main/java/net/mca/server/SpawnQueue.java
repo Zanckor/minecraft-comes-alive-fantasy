@@ -7,6 +7,7 @@ import net.mca.entity.VillagerFactory;
 import net.mca.entity.ZombieVillagerEntityMCA;
 import net.mca.entity.ZombieVillagerFactory;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.entity.race.Race;
 import net.mca.server.world.data.Nationality;
 import net.mca.util.WorldUtils;
 import net.minecraft.entity.Entity;
@@ -26,11 +27,15 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.village.VillagerType;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SpawnQueue {
     private static final SpawnQueue INSTANCE = new SpawnQueue();
+    private static final Map<String, Race> chunkGroupRaceMap = new HashMap<>();
 
     public static SpawnQueue getInstance() {
         return INSTANCE;
@@ -65,6 +70,10 @@ public class SpawnQueue {
             lock(ve);
             if (WorldUtils.isChunkLoaded(ve.getWorld(), ve.getBlockPos())) {
                 ve.discard();
+
+                ChunkPos chunkPos = new ChunkPos(ve.getBlockPos());
+                Race race = getRaceForChunk(chunkPos);
+
                 VillagerEntityMCA villager = VillagerFactory.newVillager(ve.getWorld())
                         .withName(ve.hasCustomName() ? ve.getName().getString() : null)
                         .withGender(Gender.getRandom())
@@ -72,6 +81,7 @@ public class SpawnQueue {
                         .withPosition(ve)
                         .withType(ve.getVillagerData().getType())
                         .withProfession(ve.getVillagerData().getProfession(), ve.getVillagerData().getLevel(), ve.getOffers())
+                        .withRace(race)
                         .spawn(((IVillagerEntity) ve).getSpawnReason());
 
                 copyPastaIntensifies(villager, ve);
@@ -182,5 +192,16 @@ public class SpawnQueue {
 
     public void convert(VillagerEntity villager) {
         villagerSpawnQueue.add(villager);
+    }
+
+    private Race getRaceForChunk(ChunkPos chunkPos) {
+        String groupKey = getChunkGroupKey(chunkPos);
+        return new Random().nextFloat(0F, 1F) > 0.5F ? chunkGroupRaceMap.computeIfAbsent(groupKey, k -> Race.getRandom()) : Race.HUMAN;
+    }
+
+    private static String getChunkGroupKey(ChunkPos chunkPos) {
+        int groupX = Math.floorDiv(chunkPos.x, 5);
+        int groupZ = Math.floorDiv(chunkPos.z, 5);
+        return groupX + "," + groupZ;
     }
 }

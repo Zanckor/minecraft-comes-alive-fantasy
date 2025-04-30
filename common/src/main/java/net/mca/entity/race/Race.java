@@ -27,7 +27,13 @@ public enum Race {
     }
 
     public static Race getRandom() {
-        return Race.values()[new Random().nextInt(Race.values().length)];
+        Race race = Race.values()[new Random().nextInt(Race.values().length)];
+
+        if (race == NONE) {
+            return getRandom();
+        }
+
+        return race;
     }
 
     public static Race valueOf(int ordinal) {
